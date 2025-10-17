@@ -1,11 +1,8 @@
 package com.example.quartz.demo.config;
 
+import com.example.quartz.demo.job.UpdateHighScoreJob;
 import com.example.quartz.demo.job.WorldTransferJob;
-import org.quartz.JobBuilder;
-import org.quartz.JobDetail;
-import org.quartz.SimpleScheduleBuilder;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
+import org.quartz.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,6 +13,14 @@ public class QuartzConfig {
     public JobDetail worldTransferJobDetail() {
         return JobBuilder.newJob(WorldTransferJob.class)
                 .withIdentity("worldTransferJob")
+                .storeDurably()
+                .build();
+    }
+
+    @Bean
+    public JobDetail updateHighScoreJobDetail() {
+        return JobBuilder.newJob(UpdateHighScoreJob.class)
+                .withIdentity("updateHighScoreJob")
                 .storeDurably()
                 .build();
     }
@@ -36,5 +41,10 @@ public class QuartzConfig {
     @Bean
     public WorldTransferJob worldTransferJob() {
         return new WorldTransferJob();
+    }
+
+    @Bean
+    public UpdateHighScoreJob updateHighScoreJob() {
+        return new UpdateHighScoreJob();
     }
 }
